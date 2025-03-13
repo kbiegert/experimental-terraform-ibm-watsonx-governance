@@ -34,9 +34,9 @@
       ],
       "flavors": [
         {
-          "label": "Standard",
-          "name": "standard",
-          "working_directory": "solutions/standard",
+          "label": "Fully configurable",
+          "name": "fully-configurable",
+          "working_directory": "solutions/fully-configurable",
           "compliance": {
             "authority": "scc-v3",
             "profiles": [
@@ -86,35 +86,9 @@
               "type": "password"
             },
             {
-              "key": "provider_visibility",
-              "options": [
-                {
-                  "displayname": "private",
-                  "value": "private"
-                },
-                {
-                  "displayname": "public",
-                  "value": "public"
-                },
-                {
-                  "displayname": "public-and-private",
-                  "value": "public-and-private"
-                }
-              ]
-            },
-            {
-              "key": "use_existing_resource_group"
-            },
-            {
-              "key": "resource_group_name"
-            },
-            {
               "key": "prefix",
               "required": true,
-              "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
-            },
-            {
-              "key": "name"
+              "description": "The prefix to add to all resources that this solution creates (e.g `prod`, `test`, `dev`). To not use any prefix value, you can enter the string `__NULL__`."
             },
             {
               "key": "region",
@@ -136,6 +110,21 @@
               ]
             },
             {
+              "key": "existing_resource_group_name",
+              "required": true,
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              }
+            },
+            {
+              "key": "name"
+            },
+            {
               "key": "plan",
               "default_value": "lite",
               "options": [
@@ -146,6 +135,23 @@
                 {
                   "displayname": "Essentials",
                   "value": "essentials"
+                }
+              ]
+            },
+            {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
                 }
               ]
             },
@@ -170,16 +176,12 @@
               "input_mapping": [
                 {
                   "dependency_output": "workload_resource_group_name",
-                  "version_input": "resource_group_name"
+                  "version_input": "existing_resource_group_name"
                 },
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix",
                   "reference_version": true
-                },
-                {
-                  "version_input": "use_existing_resource_group",
-                  "value": true
                 }
               ],
               "optional": true,
